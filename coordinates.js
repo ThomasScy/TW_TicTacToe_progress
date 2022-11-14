@@ -54,7 +54,11 @@ module.exports = {
         If the board is full (all spots taken by either X or O) than "None"
         should be returned.
         */
-    return [1, 1];
+        let freeFields = this.getFreeFields(board);
+        if (freeFields.length === 0) return "None";
+        let randomIndex = this.getRandomInteger(freeFields.length);
+
+    return freeFields[randomIndex];
   },
 
   getUnbeatableAiCoordinates: function (board, current_player) {
@@ -87,40 +91,43 @@ module.exports = {
     }
     return false;
   },
+  getRandomInteger: function(maxValue){
+    return Math.floor(Math.random() * maxValue);
+  }
 };
 
 // run this function to test whether you have correctly implemented the other functions
 function checkCoordinates() {
-  board_1 = [
+//   board_1 = [
+//     ["X", "X", "."],
+//     ["X", ".", "."],
+//     ["X", "X", "."],
+//   ];
+//   console.log(
+//     "It should console.log the coordinates selected by the human player"
+//   );
+//   coordinates = module.exports.getPlayerMove(board_1, "X");
+//   console.log(coordinates);
+
+  board_2 = [
+    ["O", "O", "."],
     ["X", "X", "."],
-    ["X", ".", "."],
-    ["X", "X", "."],
+    ["X", "X", "O"],
   ];
-  console.log(
-    "It should console.log the coordinates selected by the human player"
-  );
-  coordinates = module.exports.getPlayerMove(board_1, "X");
-  console.log(coordinates);
+  console.log("The console.loged coordinate should be only (0,2) or (1,2)");
+  console.log(module.exports.getRandomAiCoordinates(board_2));
+  console.log("The console.loged coordinate should be only (0,2) or (1,2)");
+  console.log(module.exports.getRandomAiCoordinates(board_2));
+  console.log("The console.loged coordinate should be only (0,2) or (1,2)");
+  console.log(module.exports.getRandomAiCoordinates(board_2));
 
-  // board_2 = [
-  //   ["O", "O", "."],
-  //   ["X", "O", "."],
-  //   ["X", "X", "O"],
-  // ];
-  // console.log("The console.loged coordinate should be only (0,2) or (1,2)");
-  // console.log(module.exports.getRandomAiCoordinates(board_2));
-  // console.log("The console.loged coordinate should be only (0,2) or (1,2)");
-  // console.log(module.exports.getRandomAiCoordinates(board_2));
-  // console.log("The console.loged coordinate should be only (0,2) or (1,2)");
-  // console.log(module.exports.getRandomAiCoordinates(board_2));
-
-  // board_3 = [
-  //   ["O", "X", "X"],
-  //   ["X", "O", "X"],
-  //   ["X", "O", "X"],
-  // ];
-  // console.log("The console.loged coordinate should be None");
-  // console.log(module.exports.getRandomAiCoordinates(board_3));
+  board_3 = [
+    ["O", "X", "X"],
+    ["X", "O", "X"],
+    ["X", "O", "X"],
+  ];
+  console.log("The console.loged coordinate should be None");
+  console.log(module.exports.getRandomAiCoordinates(board_3));
 
   // board_4 = [
   //   [".", "O", "."],
