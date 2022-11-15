@@ -38,10 +38,9 @@ module.exports = {
     for (i = 0; i < board.length; i++) {
       if (board[i].includes(".")) {
         return false; 
-      } else {
-        return true;
-      }
+      } 
     }
+    return true;
   },
 
   getWinningPlayer: function (board) {
