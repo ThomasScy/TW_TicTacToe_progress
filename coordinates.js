@@ -88,6 +88,7 @@ module.exports = {
     if (goodCoordOpp !== "None") {
       return goodCoordOpp;
     }
+    if (board[1][1] === ".") return [1,1];
     return this.getRandomAiCoordinates(board, current_player);         
   },
 
@@ -121,7 +122,7 @@ module.exports = {
     let winner = boardFile.getWinningPlayer(newboard);
     if (currentPlayer === "X" ? (otherPlayer = "O") : (otherPlayer = "X"));
 
-    // termination case
+    // termination 
     if (winner === aiPlayer) {
       return { score: 10 };
     } else if (winner !== "None") {
@@ -274,7 +275,7 @@ module.exports = {
 };
 
 // run this function to test whether you have correctly implemented the other functions
-function checkCoordinates() {
+// function checkCoordinates() {
   //   board_1 = [
   //     ["X", "X", "."],
   //     ["X", ".", "."],
@@ -327,34 +328,34 @@ function checkCoordinates() {
   // ];
   // console.log("The console.loged coordinate should either (0, 2) or (2, 0)");
   // console.log(module.exports.getUnbeatableAiCoordinates(board_6));
-}
+// }
 
 // checkCoordinates();
 
-function tryAlgorithm() {
-  let board = boardFile.getEmptyBoard();
-  let player = "O";
-  let move = [];
-  while (true) {
-    boardFile.displayBoard(board);
-    if (player === "X" ? (player = "O") : (player = "X"));
+// function tryAlgorithm() {
+//   let board = boardFile.getEmptyBoard();
+//   let player = "O";
+//   let move = [];
+//   while (true) {
+//     boardFile.displayBoard(board);
+//     if (player === "X" ? (player = "O") : (player = "X"));
 
-    if (player === "X") move = module.exports.getPlayerMove(board, player);
-    else move = module.exports.getPlayerMove(board, player);
+//     if (player === "X") move = module.exports.getPlayerMove(board, player);
+//     else move = module.exports.getPlayerMove(board, player);
 
-    board[move[0]][move[1]] = player;
+//     board[move[0]][move[1]] = player;
 
-    if (boardFile.getWinningPlayer(board) !== "None") {
-      console.log(boardFile.getWinningPlayer(board));
-      boardFile.displayBoard(board);
-      console.log("we have a winner");
-      break;
-    }
-    if (boardFile.isBoardFull(board)) {
-      boardFile.displayBoard(board);
-      console.log("Board full");
-      break;
-    }
-  }
-}
+//     if (boardFile.getWinningPlayer(board) !== "None") {
+//       console.log(boardFile.getWinningPlayer(board));
+//       boardFile.displayBoard(board);
+//       console.log("we have a winner");
+//       break;
+//     }
+//     if (boardFile.isBoardFull(board)) {
+//       boardFile.displayBoard(board);
+//       console.log("Board full");
+//       break;
+//     }
+//   }
+// }
 // tryAlgorithm();
