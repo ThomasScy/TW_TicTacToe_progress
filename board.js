@@ -20,13 +20,14 @@ module.exports = {
             C   0 | X | . 
             --+---+---
         */
+
     console.log(`     1   2   3`);
     console.log(`       +   +   `);
-    console.log(" A   " +array[0].join(" | "));
+    console.log(" A   " +board[0].join(" | "));
     console.log(`   +---+---+---`);
-    console.log(" B   " +array[1].join(" | "));
+    console.log(" B   " +board[1].join(" | "));
     console.log(`   +---+---+---`);
-    console.log(" C   " +array[2].join(" | "));
+    console.log(" C   " +board[2].join(" | "));
   },
 
   isBoardFull: function (board) {
@@ -76,10 +77,10 @@ module.exports = {
 
 // run this function to test whether you have correctly implemented the other function
 function checkBoards() {
-  let board = getEmptyBoard();
+  let board = module.exports.getEmptyBoard();
   console.log(board);
 
-  board = [["X", "O", "."], ["X", "O", "."][("0", "X", ".")]];
+  board = [["X", "O", "."], ["X", "O", "."], ["0", "X", "."]];
 
   console.log(`Should give out:"
 
@@ -90,7 +91,7 @@ function checkBoards() {
        ---+---+---
     C   0 | X | . 
        ---+---+---`);
-  displayBoard(board);
+       module.exports.displayBoard(board);
 
   board_1 = [
     ["X", "O", "."],
@@ -98,7 +99,7 @@ function checkBoards() {
     ["X", "X", "O"],
   ];
   console.log("Should return False");
-  console.log(isBoardFull(board_1));
+  console.log(module.exports.isBoardFull(board_1));
 
   board_2 = [
     [".", "O", "O"],
@@ -106,7 +107,7 @@ function checkBoards() {
     [".", "X", "X"],
   ];
   console.log("Should return False");
-  console.log(isBoardFull(board_2));
+  console.log(module.exports.isBoardFull(board_2));
 
   board_3 = [
     ["O", "O", "X"],
@@ -114,7 +115,7 @@ function checkBoards() {
     ["O", "X", "X"],
   ];
   console.log("Should return True");
-  console.log(isBoardFull(board_3));
+  console.log(module.exports.isBoardFull(board_3));
 
   board_4 = [
     ["X", "O", "."],
@@ -122,7 +123,7 @@ function checkBoards() {
     ["X", "X", "O"],
   ];
   console.log("Should return X");
-  console.log(getWinningPlayer(board_4));
+  console.log(module.exports.getWinningPlayer(board_4));
 
   board_5 = [
     ["X", "O", "O"],
@@ -130,7 +131,7 @@ function checkBoards() {
     ["O", "X", "X"],
   ];
   console.log("Should return O");
-  console.log(getWinningPlayer(board_5));
+  console.log(module.exports.getWinningPlayer(board_5));
 
   board_6 = [
     ["O", "O", "."],
@@ -138,5 +139,6 @@ function checkBoards() {
     [".", "X", "."],
   ];
   console.log("Should return None");
-  console.log(getWinningPlayer(board_6));
+  console.log(module.exports.getWinningPlayer(board_6));
 }
+checkBoards();
