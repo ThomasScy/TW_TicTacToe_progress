@@ -26,15 +26,16 @@ module.exports = {
     
         let validInput = ["1", "2", "3", "4"]
         while (true) {
-           if (validInput.includes(userInput)) {
-                return parseInt(userInput);
-       
-           } else {
+            if (validInput.includes(userInput)) {
+                return userInput;
+            } else if (userInput.toLowerCase() === "quit") {
+                return "quit"
+            } else {
                 console.log(`"${userInput}" is no option! Choose one of the following options!`);
                 console.log(startOptions);
                 
                 userInput = prompt();
-           }
+            }
        }
     }
  }
