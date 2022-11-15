@@ -46,4 +46,4 @@ function checkOptions()
     console.log("If the user selected 1, it should print 1");
     console.log(option);
 }
-checkOptions();
+//checkOptions();
