@@ -3,7 +3,7 @@ const boardFile = require("./board");
 
 module.exports = {
   // retun input
-  getPlayerMove: function (board) {
+  getPlayerMove: function (board, currentPlayer) {
     /*
         Should return the read coordinates for the tic tac toe board from the terminal.
         The coordinates should be in the format  letter, number where the letter is 
