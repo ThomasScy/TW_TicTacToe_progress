@@ -140,3 +140,4 @@ function checkBoards() {
   console.log("Should return None");
   console.log(getWinningPlayer(board_6));
 }
+checkBoards();
