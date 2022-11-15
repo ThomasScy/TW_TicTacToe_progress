@@ -1,5 +1,5 @@
 const prompt = require("prompt-sync")({ sigint: true });
-const board = require("./board");
+const boardFile = require("./board");
 
 module.exports = {
   getPlayerMove: function (board) {
@@ -101,11 +101,67 @@ module.exports = {
         should be returned.
         */
 
-    return [1, 1];
+    // make a copy of the board
+    let tempBoard = boardFile.getEmptyBoard();
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        tempBoard[i][j] = board[i][j];
+      }
+    }
+    let coord = this.minmax(tempBoard, current_player, current_player);
+    return coord.index;
   },
-  minmax: function (board, currentPlayer, aiPlayer) {
-    // here comes unbeatable AI algorithm
+
+  // unbeatable recursive minmax algorithm
+  minmax: function (newboard, currentPlayer, aiPlayer) {
+    const freeFields = this.getFreeFields(newboard);
+    let otherPlayer = "";
+    let winner = boardFile.getWinningPlayer(newboard);
+    if (currentPlayer === "X" ? (otherPlayer = "O") : (otherPlayer = "X"));
+
+    // termination case
+    if (winner === aiPlayer) {
+      return { score: 10 };
+    } else if (winner !== "None") {
+      return { score: -10 };
+    } else if (freeFields.length === 0) {
+      return { score: 0 };
+    }
+
+    let moves = [];
+    for (let i = 0; i < freeFields.length; i++) {
+      let newMoves = {};
+      newMoves.index = freeFields[i];
+      newboard[freeFields[i][0]][freeFields[i][1]] = currentPlayer;
+
+      let result = this.minmax(newboard, otherPlayer, aiPlayer);
+      newMoves.score = result.score;
+
+      newboard[freeFields[i][0]][freeFields[i][1]] = ".";
+      moves.push(newMoves);
+    }
+
+    let best_move = {};
+    if (currentPlayer === aiPlayer) {
+      let best_score = -1000;
+      for (let i = 0; i < moves.length; i++) {
+        if (moves[i].score > best_score) {
+          best_move = moves[i];
+          best_score = moves[i].score;
+        }
+      }
+    } else {
+      let worst_score = 1000;
+      for (let i = 0; i < moves.length; i++) {
+        if (moves[i].score < worst_score) {
+          best_move = moves[i];
+          worst_score = moves[i].score;
+        }
+      }
+    }
+    return best_move;
   },
+
   getBestCoord: function (board, player) {
     // check for two in line of player
     let boardLine = this.getBestLine(board, player, 2);
@@ -225,7 +281,6 @@ function checkCoordinates() {
   //   );
   //   coordinates = module.exports.getPlayerMove(board_1, "X");
   //   console.log(coordinates);
-
   // board_2 = [
   //   ["O", "O", "."],
   //   ["X", "X", "."],
@@ -237,26 +292,23 @@ function checkCoordinates() {
   // console.log(module.exports.getRandomAiCoordinates(board_2));
   // console.log("The console.loged coordinate should be only (0,2) or (1,2)");
   // console.log(module.exports.getRandomAiCoordinates(board_2));
-
   // board_3 = [
   //   ["O", "X", "O"],
   //   ["O", "O", "X"],
   //   ["X", "X", "X"],
   // ];
-
   // console.log("The console.loged coordinate should be None");
   // console.log(module.exports.getRandomAiCoordinates(board_3));
-
-  board_4 = [
-    [".", ".", "."],
-    [".", "X", "."],
-    [".", "O", "."],
-  ];
-
-  console.log(module.exports.getBeatableAiCoordinates(board_4, "X"));
+  // board_4 = [
+  //   ["X", "O", "."],
+  //   ["O", ".", "X"],
+  //   ["O", "O", "X"],
+  // ];
+  // console.log(boardFile.getWinningPlayer(board_4));
+  // console.log(module.exports.getUnbeatableAiCoordinates(board_4, "O"));
+  // console.log(module.exports.getBeatableAiCoordinates(board_4, "X"));
   // console.log("The console.loged coordinate should always be (0, 0)");
   // console.log(module.exports.getUnbeatableAiCoordinates(board_4, "X"));
-
   // board_5 = [
   //   ["X", "O", "."],
   //   ["X", ".", "."],
@@ -264,7 +316,6 @@ function checkCoordinates() {
   // ];
   // console.log("The console.loged coordinate should always be (1, 1)");
   // console.log(module.exports.getUnbeatableAiCoordinates(board_5, "O"));
-
   // board_6 = [
   //   ["O", "O", "."],
   //   ["O", "X", "."],
@@ -274,4 +325,30 @@ function checkCoordinates() {
   // console.log(module.exports.getUnbeatableAiCoordinates(board_6));
 }
 
-checkCoordinates();
+// checkCoordinates();
+
+function tryAlgorithm() {
+  let board = boardFile.getEmptyBoard();
+  let player = "O";
+  let move = [];
+  while (true) {
+    boardFile.displayBoard(board);
+    if (player === "X" ? (player = "O") : (player = "X"));
+    if (player === "X") move = module.exports.getPlayerMove(board, player);
+    else move = module.exports.getUnbeatableAiCoordinates(board, player);
+
+    board[move[0]][move[1]] = player;
+
+    if (boardFile.getWinningPlayer(board) !== "None") {
+      console.log(boardFile.getWinningPlayer(board));
+      console.log("we have a winner");
+      break;
+    }
+    if (boardFile.isBoardFull(board)) {
+      boardFile.displayBoard(board);
+      console.log("Board full");
+      break;
+    }
+  }
+}
+// tryAlgorithm();
