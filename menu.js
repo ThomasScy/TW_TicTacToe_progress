@@ -24,7 +24,7 @@ module.exports = {
     
         let userInput = prompt(`Your decision is: `);
     
-        let validInput = ["1", "2", "3", "4"]
+        let validInput = ["1", "2", "3", "4", "5", "6"]
         while (true) {
             if (validInput.includes(userInput)) {
                 return userInput;
