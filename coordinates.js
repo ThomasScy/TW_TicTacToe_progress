@@ -81,13 +81,13 @@ module.exports = {
     let goodCoordCurr = this.getBestCoord(board, current_player);
     let goodCoordOpp = this.getBestCoord(board, otherPlayer);
 
-    if (goodCoordCurr === "None" && goodCoordOpp === "None") {
-      return this.getRandomAiCoordinates(board, current_player);
-    } else if (goodCoordCurr !== "None") {
+    if (goodCoordCurr !== "None") {
       return goodCoordCurr;
-    } else if (goodCoordOpp !== "None") {
+    } 
+    if (goodCoordOpp !== "None") {
       return goodCoordOpp;
     }
+    return this.getRandomAiCoordinates(board, current_player);         
   },
 
   getUnbeatableAiCoordinates: function (board, current_player) {
@@ -335,12 +335,13 @@ function tryAlgorithm() {
     boardFile.displayBoard(board);
     if (player === "X" ? (player = "O") : (player = "X"));
     if (player === "X") move = module.exports.getPlayerMove(board, player);
-    else move = module.exports.getUnbeatableAiCoordinates(board, player);
+    else move = module.exports.getBeatableAiCoordinates(board, player);
 
     board[move[0]][move[1]] = player;
 
     if (boardFile.getWinningPlayer(board) !== "None") {
       console.log(boardFile.getWinningPlayer(board));
+      boardFile.displayBoard(board);
       console.log("we have a winner");
       break;
     }
@@ -352,4 +353,4 @@ function tryAlgorithm() {
   }
 }
 
-//tryAlgorithm();
+tryAlgorithm();
