@@ -78,15 +78,15 @@ module.exports = {
     if (current_player === "X" ? (otherPlayer = "O") : (otherPlayer = "X"));
 
     // check for two in line for current player
-    let coordCurrent = this.getBestCoord(board, current_player);
-    let coordOther = this.getBestCoord(board, otherPlayer);
+    let goodCoordCurr = this.getBestCoord(board, current_player);
+    let goodCoordOpp = this.getBestCoord(board, otherPlayer);
 
-    if (coordCurrent === "None" && coordOther === "None") {
+    if (goodCoordCurr === "None" && goodCoordOpp === "None") {
       return this.getRandomAiCoordinates(board, current_player);
-    } else if (coordCurrent !== "None") {
-      return coordCurrent;
-    } else if (coordOther !== "None") {
-      return coordOther;
+    } else if (goodCoordCurr !== "None") {
+      return goodCoordCurr;
+    } else if (goodCoordOpp !== "None") {
+      return goodCoordOpp;
     }
   },
 
@@ -351,4 +351,5 @@ function tryAlgorithm() {
     }
   }
 }
-// tryAlgorithm();
+
+//tryAlgorithm();
