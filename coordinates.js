@@ -2,6 +2,7 @@ const prompt = require("prompt-sync")({ sigint: true });
 const boardFile = require("./board");
 
 module.exports = {
+  // retun input
   getPlayerMove: function (board) {
     /*
         Should return the read coordinates for the tic tac toe board from the terminal.
@@ -90,6 +91,7 @@ module.exports = {
     return this.getRandomAiCoordinates(board, current_player);         
   },
 
+  // returns unbeatable coordinate
   getUnbeatableAiCoordinates: function (board, current_player) {
     /*
         Should return an array of 2 numbers. 
@@ -111,7 +113,7 @@ module.exports = {
     let coord = this.minmax(tempBoard, current_player, current_player);
     return coord.index;
   },
-
+  ///////////////////////////////////////////////////////////////
   // unbeatable recursive minmax algorithm
   minmax: function (newboard, currentPlayer, aiPlayer) {
     const freeFields = this.getFreeFields(newboard);
@@ -161,17 +163,17 @@ module.exports = {
     }
     return best_move;
   },
-
+  // retuns most optimal coordinate for player
   getBestCoord: function (board, player) {
-    // check for two in line of player
+
+    // check for two in line for player
     let boardLine = this.getBestLine(board, player, 2);
-    // if no two in lines are found take the middle field,
-    // if taken just pick random coordinate
+
     if (boardLine.length === 0) {
-      // check for middle of field
+      // if no two in lines are found take the middle field,
       if (board[1][1] === ".") return [1, 1];
     } else {
-      // if there are two in line fill the one that is empty
+      // if there are two in line return the empty one
       for (const coord of boardLine) {
         if (board[coord[0]][coord[1]] === ".") return coord;
       }
@@ -180,6 +182,7 @@ module.exports = {
   },
   // itarated the board and returns coordinates of all free fields
   getFreeFields: function (board) {
+    // retrutn list of all cordinates that are availble for move
     const freeField = [];
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
@@ -200,9 +203,10 @@ module.exports = {
   getRandomInteger: function (maxValue) {
     return Math.floor(Math.random() * maxValue);
   },
-  //
+  // returns line with two fill and one empty
   getBestLine: function (board, player, numSimilars) {
     let counterPlayer = 0;
+    let counterDot = 0;
 
     for (let row = 0; row < board.length; row++) {
       // check horizontally
@@ -210,7 +214,7 @@ module.exports = {
       counterDot = 0;
       for (let i = 0; i < board[row].length; i++) {
         if (board[row][i] === player) counterPlayer += 1;
-        if (board[row][i] !== ".") counterDot += 1;
+        if (board[row][i] === ".") counterDot += 1;
       }
       if (counterPlayer === numSimilars && counterPlayer + counterDot === 3) {
         return [
@@ -353,4 +357,4 @@ function tryAlgorithm() {
   }
 }
 
-tryAlgorithm();
+// tryAlgorithm();
