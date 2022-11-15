@@ -338,8 +338,9 @@ function tryAlgorithm() {
   while (true) {
     boardFile.displayBoard(board);
     if (player === "X" ? (player = "O") : (player = "X"));
+
     if (player === "X") move = module.exports.getPlayerMove(board, player);
-    else move = module.exports.getBeatableAiCoordinates(board, player);
+    else move = module.exports.getPlayerMove(board, player);
 
     board[move[0]][move[1]] = player;
 
@@ -356,5 +357,4 @@ function tryAlgorithm() {
     }
   }
 }
-
 // tryAlgorithm();
