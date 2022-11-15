@@ -43,19 +43,19 @@ function main() {
     
     
     if (gameMode === "1") {
-      coord = getPlayerMove(gameBoard, currentPlayer);
-    } else if (/[3-5]/.test(parseInt(gameBoard)) && currentPlayer === "X") {
-      coord = getPlayerMove(gameBoard, currentPlayer);
+      coord = coordinate.getPlayerMove(gameBoard, currentPlayer);
+    } else if (/[3-5]/.test(gameMode) && currentPlayer === "X") {
+      coord = coordinate.getPlayerMove(gameBoard, currentPlayer);
     } else if (gameMode === "2") {
-      coord = getRandomAiCoordinates(gameBoard, currentPlayer);
+      coord = coordinate.getRandomAiCoordinates(gameBoard, currentPlayer);
     } else if (gameMode === "3" && currentPlayer === "O") {
-      coord = getRandomAiCoordinates(gameBoard, currentPlayer);
+      coord = coordinate.getRandomAiCoordinates(gameBoard, currentPlayer);
     } else if (gameMode === "4" && currentPlayer === "O") {
-      coord = getUnbeatableAiCoordinates(gameBoard, currentPlayer);
+      coord = coordinate.getUnbeatableAiCoordinates(gameBoard, currentPlayer);
     } else if (gameMode === "6") {
-      coord = getUnbeatableAiCoordinates(gameBoard, currentPlayer);
-    } else if (gameBoard === "5" && currentPlayer === "O") {
-      coord = getBeatableAiCoordinates(gameBoard, currentPlayer);
+      coord = coordinate.getUnbeatableAiCoordinates(gameBoard, currentPlayer);
+    } else if (gameMode === "5" && currentPlayer === "O") {
+      coord = coordinate.getBeatableAiCoordinates(gameBoard, currentPlayer);
     }
     
     if (coord === "None") {break};
