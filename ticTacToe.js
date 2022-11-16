@@ -2,7 +2,7 @@ const menu = require("./menu"); // use it e.g. like menu.get_menu_option()
 const board = require("./board");
 const coordinate = require("./coordinates");
 const { getPlayerMove, getRandomAiCoordinates, getUnbeatableAiCoordinates, getBeatableAiCoordinates } = require("./coordinates");
-const { isBoardFull } = require("./board");
+const { isBoardFull, displayBoard } = require("./board");
 
 const HUMAN_VS_HUMAN = 1;
 const RANDOM_AI_VS_RANDOM_AI = 2;
@@ -17,10 +17,11 @@ function main() {
 
   while (isGameRunning) {
     if (gameMode === "quit") {
-      console.log(`BYE BYE`);
+      console.log("   Sorry to see you go :( !!!");
       break;
     }
-    board.displayBoard(gameBoard);
+    console.clear();
+    board.displayBoard(gameBoard, gameMode);
     /* TODO
 
     in each new iteration of the while loop the program should 
@@ -73,10 +74,10 @@ function main() {
     
     //added by Thomas
     if (winningPlayer === "X" || winningPlayer === "O") {
-      console.log(`PLAYER ${winningPlayer} WINS!`)
+      console.log(`   PLAYER ${winningPlayer} WINS!`)
       break;
     } else if (itsATie) {
-      console.log(`It's a tie.`);
+      console.log(`   It's a tie.`);
       break;
     }
   }
