@@ -22,10 +22,10 @@ module.exports = {
     while (userInput !== "QUIT") {
       let coordinates = [];
 
-      userInput = prompt("Please enter the coordinates: ").toUpperCase().trim();
+      userInput = prompt("   Please enter the coordinates: ").toUpperCase().trim();
       // termination case
       if (userInput === "QUIT") {
-        console.log("Sorry to see you go :( !!!");
+        console.log("   Sorry to see you go :( !!!");
         continue;
       }
       // conversion to coordinates
@@ -34,14 +34,14 @@ module.exports = {
         let x = Number(userInput[1]) - 1;
         coordinates = [y, x];
       } else {
-        console.log("Sorry I didn't understand, please try again.");
+        console.log("   Sorry I didn't understand, please try again.");
         continue;
       }
       // check if coordinates are free and returns them
       if (this.isFieldFree(freeFields, coordinates)) {
         return coordinates;
       } else {
-        console.log("This Field is already taken, please try again.");
+        console.log("   This Field is already taken, please try again.");
       }
     }
     // exit with "QUIT" and return none
@@ -115,6 +115,10 @@ module.exports = {
     return coord.index;
   },
   ///////////////////////////////////////////////////////////////
+  // used for testing
+  sleep : function (ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  },
   // unbeatable recursive minmax algorithm
   minmax: function (newboard, currentPlayer, aiPlayer) {
     const freeFields = this.getFreeFields(newboard);
@@ -332,30 +336,39 @@ module.exports = {
 
 // checkCoordinates();
 
-// function tryAlgorithm() {
-//   let board = boardFile.getEmptyBoard();
-//   let player = "O";
-//   let move = [];
-//   while (true) {
-//     boardFile.displayBoard(board);
-//     if (player === "X" ? (player = "O") : (player = "X"));
+async function tryAlgorithm() {
+  let board = boardFile.getEmptyBoard();
+  let player = "O";
+  let move = [];
+  while (true) {
+    console.clear();
+    boardFile.displayBoard(board);
+    if (player === "X" ? (player = "O") : (player = "X"));
 
-//     if (player === "X") move = module.exports.getPlayerMove(board, player);
-//     else move = module.exports.getPlayerMove(board, player);
+    if (player === "X"){
+      await module.exports.sleep(2000);
+      // module.exports.timePosponed(1000);
+      move = module.exports.getUnbeatableAiCoordinates(board, player);
+    } else {
+      await module.exports.sleep(2000);
+      // module.exports.timePosponed(1000);
+      move = module.exports.getBeatableAiCoordinates(board, player);
+    }
+    board[move[0]][move[1]] = player;
 
-//     board[move[0]][move[1]] = player;
-
-//     if (boardFile.getWinningPlayer(board) !== "None") {
-//       console.log(boardFile.getWinningPlayer(board));
-//       boardFile.displayBoard(board);
-//       console.log("we have a winner");
-//       break;
-//     }
-//     if (boardFile.isBoardFull(board)) {
-//       boardFile.displayBoard(board);
-//       console.log("Board full");
-//       break;
-//     }
-//   }
-// }
+    if (boardFile.getWinningPlayer(board) !== "None") {
+      console.clear();
+      console.log(boardFile.getWinningPlayer(board));
+      boardFile.displayBoard(board);
+      console.log("we have a winner");
+      break;
+    }
+    if (boardFile.isBoardFull(board)) {
+      console.clear();
+      boardFile.displayBoard(board);
+      console.log("It's a tie");
+      break;
+    }
+  }
+}
 // tryAlgorithm();
