@@ -8,8 +8,13 @@ const HUMAN_VS_HUMAN = 1;
 const RANDOM_AI_VS_RANDOM_AI = 2;
 const HUMAN_VS_RANDOM_AI = 3;
 const HUMAN_VS_UNBEATABLE_AI = 4;
+const SLEEPTIME = 2000; // in ms
 
-function main() {
+const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+async function main() {
   let gameMode = menu.getMenuOption();
   let gameBoard = board.getEmptyBoard();
   let isGameRunning = true;
@@ -49,14 +54,19 @@ function main() {
       coord = coordinate.getPlayerMove(gameBoard, currentPlayer);
     } else if (gameMode === "2") {
       coord = coordinate.getRandomAiCoordinates(gameBoard, currentPlayer);
+      await sleep(SLEEPTIME);
     } else if (gameMode === "3" && currentPlayer === "O") {
       coord = coordinate.getRandomAiCoordinates(gameBoard, currentPlayer);
+      await sleep(SLEEPTIME);
     } else if (gameMode === "4" && currentPlayer === "O") {
       coord = coordinate.getUnbeatableAiCoordinates(gameBoard, currentPlayer);
+      await sleep(SLEEPTIME);
     } else if (gameMode === "6") {
       coord = coordinate.getUnbeatableAiCoordinates(gameBoard, currentPlayer);
+      await sleep(SLEEPTIME);
     } else if (gameMode === "5" && currentPlayer === "O") {
       coord = coordinate.getBeatableAiCoordinates(gameBoard, currentPlayer);
+      await sleep(SLEEPTIME);
     }
     
     if (coord === "None") {break};
