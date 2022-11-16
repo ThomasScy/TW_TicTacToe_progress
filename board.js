@@ -9,7 +9,7 @@ module.exports = {
 
   },
 
-  displayBoard: function (board) {
+  displayBoard: function (board, gameMode) {
     /*
         Should console.log the tic tac toe board in a format similar to
             1   2   3
@@ -20,14 +20,24 @@ module.exports = {
             C   0 | X | . 
             --+---+---
         */
-
-    console.log(`     1   2   3`);
-    console.log(`       +   +   `);
-    console.log(" A   " +board[0].join(" | "));
-    console.log(`   +---+---+---`);
-    console.log(" B   " +board[1].join(" | "));
-    console.log(`   +---+---+---`);
-    console.log(" C   " +board[2].join(" | "));
+    let startOptionsArray = [
+      "        Human vs. Human        ",
+      "    Random AI vs. Random AI    ",
+      "      Human vs. Random AI      ",
+      "    Human vs. Unbeatable AI    ",
+      "     Human vs. Beatable AI     ",
+      "Unbeatable AI vs. Unbeatable AI",
+    ];
+    console.log(`   ${startOptionsArray[gameMode - 1]}`)
+    console.log(); // new line
+    console.log(`\t     1   2   3`);
+    console.log(); // new line
+    console.log("\t A   " +board[0].join(" | ").replaceAll('.', ' '));
+    console.log(`\t    ---+---+---`);
+    console.log("\t B   " +board[1].join(" | ").replaceAll('.', ' '));
+    console.log(`\t    ---+---+---`);
+    console.log("\t C   " +board[2].join(" | ").replaceAll('.', ' '));
+    console.log() // new line
   },
 
   isBoardFull: function (board) {
