@@ -22,7 +22,9 @@ module.exports = {
     while (userInput !== "QUIT") {
       let coordinates = [];
 
-      userInput = prompt("   Please enter the coordinates: ").toUpperCase().trim();
+      userInput = prompt("   Please enter the coordinates: ")
+        .toUpperCase()
+        .trim();
       // termination case
       if (userInput === "QUIT") {
         console.log("   Sorry to see you go :( !!!");
@@ -32,6 +34,10 @@ module.exports = {
       if (/[A-C]/.test(userInput[0]) && /[1-3]/.test(userInput[1])) {
         let y = rowNames.indexOf(userInput[0]);
         let x = Number(userInput[1]) - 1;
+        coordinates = [y, x];
+      } else if (/[A-C]/.test(userInput[1]) && /[1-3]/.test(userInput[0])) {
+        let x = rowNames.indexOf(userInput[1]);
+        let y = Number(userInput[0]) - 1;
         coordinates = [y, x];
       } else {
         console.log("   Sorry I didn't understand, please try again.");
@@ -84,12 +90,12 @@ module.exports = {
 
     if (goodCoordCurr !== "None") {
       return goodCoordCurr;
-    } 
+    }
     if (goodCoordOpp !== "None") {
       return goodCoordOpp;
     }
-    if (board[1][1] === ".") return [1,1];
-    return this.getRandomAiCoordinates(board, current_player);         
+    if (board[1][1] === ".") return [1, 1];
+    return this.getRandomAiCoordinates(board, current_player);
   },
 
   // returns unbeatable coordinate
@@ -116,8 +122,8 @@ module.exports = {
   },
   ///////////////////////////////////////////////////////////////
   // used for testing
-  sleep : function (ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+  sleep: function (ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   },
   // unbeatable recursive minmax algorithm
   minmax: function (newboard, currentPlayer, aiPlayer) {
@@ -126,7 +132,7 @@ module.exports = {
     let winner = boardFile.getWinningPlayer(newboard);
     if (currentPlayer === "X" ? (otherPlayer = "O") : (otherPlayer = "X"));
 
-    // termination 
+    // termination
     if (winner === aiPlayer) {
       return { score: 10 };
     } else if (winner !== "None") {
@@ -170,7 +176,6 @@ module.exports = {
   },
   // retuns most optimal coordinate for player
   getBestCoord: function (board, player) {
-
     // check for two in line for player
     let boardLine = this.getBestLine(board, player, 2);
 
@@ -280,58 +285,58 @@ module.exports = {
 
 // run this function to test whether you have correctly implemented the other functions
 // function checkCoordinates() {
-  //   board_1 = [
-  //     ["X", "X", "."],
-  //     ["X", ".", "."],
-  //     ["X", "X", "."],
-  //   ];
-  //   console.log(
-  //     "It should console.log the coordinates selected by the human player"
-  //   );
-  //   coordinates = module.exports.getPlayerMove(board_1, "X");
-  //   console.log(coordinates);
-  // board_2 = [
-  //   ["O", "O", "."],
-  //   ["X", "X", "."],
-  //   ["X", "X", "O"],
-  // ];
-  // console.log("The console.loged coordinate should be only (0,2) or (1,2)");
-  // console.log(module.exports.getRandomAiCoordinates(board_2));
-  // console.log("The console.loged coordinate should be only (0,2) or (1,2)");
-  // console.log(module.exports.getRandomAiCoordinates(board_2));
-  // console.log("The console.loged coordinate should be only (0,2) or (1,2)");
-  // console.log(module.exports.getRandomAiCoordinates(board_2));
-  // board_3 = [
-  //   ["O", "X", "O"],
-  //   ["O", "O", "X"],
-  //   ["X", "X", "X"],
-  // ];
-  // console.log("The console.loged coordinate should be None");
-  // console.log(module.exports.getRandomAiCoordinates(board_3));
-  // board_4 = [
-  //   ["X", "O", "."],
-  //   ["O", ".", "X"],
-  //   ["O", "O", "X"],
-  // ];
-  // console.log(boardFile.getWinningPlayer(board_4));
-  // console.log(module.exports.getUnbeatableAiCoordinates(board_4, "O"));
-  // console.log(module.exports.getBeatableAiCoordinates(board_4, "X"));
-  // console.log("The console.loged coordinate should always be (0, 0)");
-  // console.log(module.exports.getUnbeatableAiCoordinates(board_4, "X"));
-  // board_5 = [
-  //   ["X", "O", "."],
-  //   ["X", ".", "."],
-  //   ["O", "O", "X"],
-  // ];
-  // console.log("The console.loged coordinate should always be (1, 1)");
-  // console.log(module.exports.getUnbeatableAiCoordinates(board_5, "O"));
-  // board_6 = [
-  //   ["O", "O", "."],
-  //   ["O", "X", "."],
-  //   [".", "X", "."],
-  // ];
-  // console.log("The console.loged coordinate should either (0, 2) or (2, 0)");
-  // console.log(module.exports.getUnbeatableAiCoordinates(board_6));
+//   board_1 = [
+//     ["X", "X", "."],
+//     ["X", ".", "."],
+//     ["X", "X", "."],
+//   ];
+//   console.log(
+//     "It should console.log the coordinates selected by the human player"
+//   );
+//   coordinates = module.exports.getPlayerMove(board_1, "X");
+//   console.log(coordinates);
+// board_2 = [
+//   ["O", "O", "."],
+//   ["X", "X", "."],
+//   ["X", "X", "O"],
+// ];
+// console.log("The console.loged coordinate should be only (0,2) or (1,2)");
+// console.log(module.exports.getRandomAiCoordinates(board_2));
+// console.log("The console.loged coordinate should be only (0,2) or (1,2)");
+// console.log(module.exports.getRandomAiCoordinates(board_2));
+// console.log("The console.loged coordinate should be only (0,2) or (1,2)");
+// console.log(module.exports.getRandomAiCoordinates(board_2));
+// board_3 = [
+//   ["O", "X", "O"],
+//   ["O", "O", "X"],
+//   ["X", "X", "X"],
+// ];
+// console.log("The console.loged coordinate should be None");
+// console.log(module.exports.getRandomAiCoordinates(board_3));
+// board_4 = [
+//   ["X", "O", "."],
+//   ["O", ".", "X"],
+//   ["O", "O", "X"],
+// ];
+// console.log(boardFile.getWinningPlayer(board_4));
+// console.log(module.exports.getUnbeatableAiCoordinates(board_4, "O"));
+// console.log(module.exports.getBeatableAiCoordinates(board_4, "X"));
+// console.log("The console.loged coordinate should always be (0, 0)");
+// console.log(module.exports.getUnbeatableAiCoordinates(board_4, "X"));
+// board_5 = [
+//   ["X", "O", "."],
+//   ["X", ".", "."],
+//   ["O", "O", "X"],
+// ];
+// console.log("The console.loged coordinate should always be (1, 1)");
+// console.log(module.exports.getUnbeatableAiCoordinates(board_5, "O"));
+// board_6 = [
+//   ["O", "O", "."],
+//   ["O", "X", "."],
+//   [".", "X", "."],
+// ];
+// console.log("The console.loged coordinate should either (0, 2) or (2, 0)");
+// console.log(module.exports.getUnbeatableAiCoordinates(board_6));
 // }
 
 // checkCoordinates();
@@ -345,7 +350,7 @@ async function tryAlgorithm() {
     boardFile.displayBoard(board);
     if (player === "X" ? (player = "O") : (player = "X"));
 
-    if (player === "X"){
+    if (player === "X") {
       await module.exports.sleep(2000);
       // module.exports.timePosponed(1000);
       move = module.exports.getUnbeatableAiCoordinates(board, player);
