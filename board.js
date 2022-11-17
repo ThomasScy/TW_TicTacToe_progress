@@ -6,7 +6,6 @@ module.exports = {
         */
     let Emptyboard = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']];
     return Emptyboard;
-
   },
 
   displayBoard: function (board, gameMode) {
@@ -28,7 +27,7 @@ module.exports = {
       "     Human vs. Beatable AI     ",
       "Unbeatable AI vs. Unbeatable AI",
     ];
-    console.log(`   ${startOptionsArray[gameMode - 1]}`)
+    console.log(`   ${startOptionsArray[gameMode - 1]}`) // displays gameMode constantly
     console.log(); // new line
     console.log(`\t     1   2   3`);
     console.log(); // new line
@@ -67,7 +66,7 @@ module.exports = {
       board[0][2] === "X" && board[1][2] === "X" && board[2][2] === "X" ||
       board[0][0] === "X" && board[1][1] === "X" && board[2][2] === "X" ||
       board[0][2] === "X" && board[1][1] === "X" && board[2][0] === "X") {
-        return 'X'}
+      return 'X'}
     else if ( 
       board[0][0] === "O" && board[0][1] === "O" && board[0][2] === "O" ||
       board[1][0] === "O" && board[1][1] === "O" && board[1][2] === "O" ||
@@ -77,13 +76,13 @@ module.exports = {
       board[0][2] === "O" && board[1][2] === "O" && board[2][2] === "O" ||
       board[0][0] === "O" && board[1][1] === "O" && board[2][2] === "O" ||
       board[0][2] === "O" && board[1][1] === "O" && board[2][0] === "O") {
-        return "O"
+      return "O"
     } else {
       return "None"
     }
   },
 };
-
+// TEST FUNCTION
 // run this function to test whether you have correctly implemented the other function
 function checkBoards() {
   let board = module.exports.getEmptyBoard();

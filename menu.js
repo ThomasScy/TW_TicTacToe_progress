@@ -10,7 +10,6 @@ module.exports = {
         If the user will enter invalid data (for example 5), than a message will appear
         asking to input a new value.
         */
-
         const prompt = require("prompt-sync")();
         console.log(`   Choose one of the following options! \n`);
         let startOptions = ""
@@ -25,9 +24,8 @@ module.exports = {
     
         let userInput = prompt(`   Your decision is: `);
 
-        //console.clear();
-
         let validInput = ["1", "2", "3", "4", "5", "6"];
+
         while (true) {
             if (validInput.includes(userInput)) {
                 //console.clear();
@@ -43,10 +41,9 @@ module.exports = {
                 //console.clear();
             }
         }
-        
     }
  }
-
+// TEST FUNCTION
 // run this function to test whether you have correctly implemented the other function
 function checkOptions()
 {
