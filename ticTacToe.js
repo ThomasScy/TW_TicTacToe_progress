@@ -19,7 +19,7 @@ async function main() {
   let gameBoard = board.getEmptyBoard();
   let isGameRunning = true;
   let currentPlayer = "O";
-
+  
   while (isGameRunning) {
     if (gameMode === "quit") {
       console.log("   Sorry to see you go :( !!!");
@@ -27,33 +27,52 @@ async function main() {
     }
     console.clear();
     board.displayBoard(gameBoard, gameMode);
-    /* TODO
 
+    /* TODO 
+  
+        based on the values of `winning_player` and `its_a_tie` the program
+        should either stop displaying a winning/tie message 
+        OR continue the while loop
+        */
+    let winningPlayer = board.getWinningPlayer(gameBoard);
+    let itsATie = board.isBoardFull(gameBoard);
+    
+    //added by Thomas
+    if (winningPlayer === "X" || winningPlayer === "O") {
+      console.log(`   PLAYER ${winningPlayer} WINS!`)
+      break;
+    } else if (itsATie) {
+      console.log(`   It's a tie.`);
+      break;
+    }
+    
+    /* TODO
+    
     in each new iteration of the while loop the program should 
     alternate the value of `currentPlayer` from `X` to `O`
     */
 
-    currentPlayer = changePlayer(currentPlayer); //added by Thomas
-    //console.log(currentPlayer); //TEST
-    
- 
-
-    /* TODO
-
-        based on the value of the variables `game_mode` and `currentPlayer` 
-        the programm should choose between the functions
-        get_random_ai_coordinates or get_unbeatable_ai_coordinates or get_human_coordinates
-        */
-    let coord = [];
-
-    
-    
-    if (gameMode === "1") {
-      coord = coordinate.getPlayerMove(gameBoard, currentPlayer);
-    } else if (/[3-5]/.test(gameMode) && currentPlayer === "X") {
-      coord = coordinate.getPlayerMove(gameBoard, currentPlayer);
-    } else if (gameMode === "2") {
-      coord = coordinate.getRandomAiCoordinates(gameBoard, currentPlayer);
+   currentPlayer = changePlayer(currentPlayer); //added by Thomas
+   //console.log(currentPlayer); //TEST
+   
+   
+   
+   /* TODO
+   
+   based on the value of the variables `game_mode` and `currentPlayer` 
+   the programm should choose between the functions
+   get_random_ai_coordinates or get_unbeatable_ai_coordinates or get_human_coordinates
+   */
+  let coord = [];
+  
+  
+  
+  if (gameMode === "1") {
+    coord = coordinate.getPlayerMove(gameBoard, currentPlayer);
+  } else if (/[3-5]/.test(gameMode) && currentPlayer === "X") {
+    coord = coordinate.getPlayerMove(gameBoard, currentPlayer);
+  } else if (gameMode === "2") {
+    coord = coordinate.getRandomAiCoordinates(gameBoard, currentPlayer);
       await sleep(SLEEPTIME);
     } else if (gameMode === "3" && currentPlayer === "O") {
       coord = coordinate.getRandomAiCoordinates(gameBoard, currentPlayer);
@@ -73,23 +92,6 @@ async function main() {
     
     gameBoard[coord[0]][coord[1]] = currentPlayer;
     
-    /* TODO 
-
-        based on the values of `winning_player` and `its_a_tie` the program
-        should either stop displaying a winning/tie message 
-        OR continue the while loop
-        */
-    let winningPlayer = board.getWinningPlayer(gameBoard);
-    let itsATie = board.isBoardFull(gameBoard);
-    
-    //added by Thomas
-    if (winningPlayer === "X" || winningPlayer === "O") {
-      console.log(`   PLAYER ${winningPlayer} WINS!`)
-      break;
-    } else if (itsATie) {
-      console.log(`   It's a tie.`);
-      break;
-    }
   }
 }
 
