@@ -44,7 +44,7 @@ module.exports = {
         continue;
       }
       // check if coordinates are free and returns them
-      if (this.isFieldFree(freeFields, coordinates)) {
+      if (board[coordinates[0]][coordinates[1]] === ".") {
         return coordinates;
       } else {
         console.log("   This Field is already taken, please try again.");
@@ -68,37 +68,38 @@ module.exports = {
 
     return freeFields[randomIndex];
   },
-
+  /**
+   * KI that searches for best possible move,
+   * The chosen coordinate should always stop the other player from winning or
+   * maximize the current player's chances to win.
+   * If the board is full (all spots taken by either X or O) than "None" should be returned
+   * @param {number[][]} board - TicTacToe board
+   * @param {"X"|"O"} current_player
+   * @returns {[number,number]|"None"} - array of two coordinate, None if Board full.
+   */
   getBeatableAiCoordinates: function (board, current_player) {
-    /*
-        Should return an array of 2 numbers. 
-        Each number should be between 0-2.
-        The chosen number should be only a free coordinate from the board.
-        The chosen coordinate should always stop the other player from winning or
-        maximize the current player's chances to win.
-        If the board is full (all spots taken by either X or O) than "None"
-        should be returned.
-        */
     let freeFields = this.getFreeFields(board);
     if (freeFields.length === 0) return "None";
-    let otherPlayer = "";
-    if (current_player === "X" ? (otherPlayer = "O") : (otherPlayer = "X"));
+    let otherPlayer = current_player === "X" ?  "O" : "X";
 
-    // check for two in line for current player
-    let goodCoordCurr = this.getBestCoord(board, current_player);
-    let goodCoordOpp = this.getBestCoord(board, otherPlayer);
+    let goodMoveCurr = this.getBestCoord(board, current_player);
+    let goodMoveOpp = this.getBestCoord(board, otherPlayer);
 
-    if (goodCoordCurr !== "None") {
-      return goodCoordCurr;
+    // check if current player have a win move, take it! 
+    if (goodMoveCurr !== "None") {
+      return goodMoveCurr;
     }
-    if (goodCoordOpp !== "None") {
-      return goodCoordOpp;
+    // check if other player have a win move, take it! 
+    if (goodMoveOpp !== "None") {
+      return goodMoveOpp;
     }
+    // if middle field is empty, mark it!
     if (board[1][1] === ".") return [1, 1];
+
+    // if nothing works then chose any free field.
     return this.getRandomAiCoordinates(board, current_player);
   },
-
-  // returns unbeatable coordinate
+  // KI that returns unbeatable coordinates for current player
   getUnbeatableAiCoordinates: function (board, current_player) {
     /*
         Should return an array of 2 numbers. 
@@ -121,10 +122,6 @@ module.exports = {
     return coord.index;
   },
   ///////////////////////////////////////////////////////////////
-  // used for testing
-  sleep: function (ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  },
   // unbeatable recursive minmax algorithm
   minmax: function (newboard, currentPlayer, aiPlayer) {
     const freeFields = this.getFreeFields(newboard);
@@ -174,8 +171,58 @@ module.exports = {
     }
     return best_move;
   },
-  // retuns most optimal coordinate for player
+  /**The function should search all free Fields,
+   * test if the field brings a win, and then return coordinates.
+   * If no fiels is found "None is returned"
+   * @param {number[][]} board - TicTacToe Board matrix
+   * @param {"X"|"O"} player - current player
+   * @returns {number[y,x]|"None"} touple of numbers that represent x,y coordinates
+   */
   getBestCoord: function (board, player) {
+    let freeFields = this.getFreeFields(board);
+    for (const field of freeFields) {
+      board[field[0]][field[1]] = player;
+      let winner = boardFile.getWinningPlayer(board);
+      board[field[0]][field[1]] = ".";
+
+      if (winner === player) return field;
+    }
+    return "None";
+  },
+  /**Captures free fields in board
+   * Itarates through the board and returns coordinates of all free fields
+   * @param {number[][]} board - TicTacToe board
+   * @returns {number[[number.number],...]} retuns a list of touples
+   */
+  getFreeFields: function (board) {
+    // retrutn list of all cordinates that are availble for move
+    const freeField = [];
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        if (board[row][col] === ".") freeField.push([row, col]);
+      }
+    }
+    return freeField;
+  },
+  /**Random function that takes in a number
+   * returns random integer [0,maxValue) maxValue excluded
+   * @param {maxValue} takes in the maximum value
+   * @returns
+   */
+  getRandomInteger: function (maxValue) {
+    return Math.floor(Math.random() * maxValue);
+  },
+  /**Sleep function
+   * @param {number} ms - milliseconds
+   * @returns {Promise} - wait for ms milliseconds
+   */
+  sleep: function (ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  },
+  /**
+   * @deprecated resource demanding function, replaced with  getBestCoord()
+   */
+  getBestCoordOriginal: function (board, player) {
     // check for two in line for player
     let boardLine = this.getBestLine(board, player, 2);
 
@@ -190,18 +237,9 @@ module.exports = {
     }
     return "None";
   },
-  // itarated the board and returns coordinates of all free fields
-  getFreeFields: function (board) {
-    // retrutn list of all cordinates that are availble for move
-    const freeField = [];
-    for (let row = 0; row < board.length; row++) {
-      for (let col = 0; col < board[row].length; col++) {
-        if (board[row][col] === ".") freeField.push([row, col]);
-      }
-    }
-    return freeField;
-  },
-  // compares values of all subarrays in fieldList with coordinates
+  /**
+   * @deprecated replaced with one line code
+   */
   isFieldFree: function (fieldList, coordinates) {
     for (const field of fieldList) {
       if (field[0] === coordinates[0] && field[1] === coordinates[1])
@@ -209,11 +247,9 @@ module.exports = {
     }
     return false;
   },
-  // returns random integer [0,maxValue) maxValue excluded
-  getRandomInteger: function (maxValue) {
-    return Math.floor(Math.random() * maxValue);
-  },
-  // returns line with two fill and one empty
+  /**
+   * @deprecated not elegant, and too long replaced with getBestCoord
+   */
   getBestLine: function (board, player, numSimilars) {
     let counterPlayer = 0;
     let counterDot = 0;
@@ -341,7 +377,7 @@ module.exports = {
 
 // checkCoordinates();
 
-async function tryAlgorithm() {
+async function testGame() {
   let board = boardFile.getEmptyBoard();
   let player = "O";
   let move = [];
@@ -353,7 +389,7 @@ async function tryAlgorithm() {
     if (player === "X") {
       await module.exports.sleep(2000);
       // module.exports.timePosponed(1000);
-      move = module.exports.getUnbeatableAiCoordinates(board, player);
+      move = module.exports.getPlayerMove(board, player);
     } else {
       await module.exports.sleep(2000);
       // module.exports.timePosponed(1000);
@@ -376,4 +412,5 @@ async function tryAlgorithm() {
     }
   }
 }
-// tryAlgorithm();
+// testGame();
+
